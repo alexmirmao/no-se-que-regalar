@@ -1,0 +1,115 @@
+Para lanzar el enviroment:
+ponernos en la carpeta no-se-que-regalar y dentro del virtual env activarlo con venv-nsqr\Scripts\actívate
+
+Para correr el server (necesitamos tener el enviroment activado) ejecutar:
+python manage.py runserver (dentro del repo donde se encuentra el manage.py)
+python manage.py makemigrations
+python manage.py migrate
+
+para entrar en los links:
+http://127.0.0.1:8000/admin (ejemplo)
+Username: alex_calleja
+p:papa
+
+EXPLICACION ENDPOINTS TOKEN
+http://localhost:8000/api/token/
+Sirve para loguearse y nos devuelve dos tokens el access token y el refresh token
+El access token es el que se utiliza para acceder a endpoints de la API (en la repuesta d epostman hay que darle a raw para ver los dos tokens)
+El refresh token se utiliza para refrescar el el access token sin que el usuario se tenga que volver a loguear
+
+http://localhost:8000/api/token/refresh/
+Refresca el access token (genera uno nuevo)
+{
+    "refresh": "[token de reefresco generado en el otro endpoint]"
+}
+
+Decoradores
+1. @action
+Uso: @action(detail=True/False, methods=['get', 'post'], url_path='nombre_personalizado')
+
+Este decorador es específico de Django REST Framework y se utiliza para crear rutas personalizadas dentro de un ViewSet. Permite definir vistas adicionales (acciones) que no están incluidas en las operaciones estándar (retrieve, list, create, update, delete).
+
+detail=True: La acción actúa sobre un objeto específico, esperando un ID en la URL (/api/productos/<id>/mi_accion/).
+detail=False: La acción se aplica a la colección en general, sin requerir un ID (/api/productos/mi_accion/).
+
+2. @api_view
+Uso: @api_view(['GET', 'POST', 'PUT', 'DELETE'])
+
+Este decorador convierte una función basada en vista en una vista de API. Es ideal para funciones simples que no necesitan toda la estructura de un ViewSet.
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['GET'])
+def example_view(request):
+    data = {"message": "Hello, API!"}
+    return Response(data)
+
+3. @permission_classes
+Uso: @permission_classes([AllowAny, IsAuthenticated])
+
+Permite asignar clases de permisos a vistas individuales. Esto es útil si necesitas permisos específicos en una vista dentro de un ViewSet o en una vista basada en función.
+
+Ejemplo:
+
+python
+Copiar código
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def secure_view(request):
+    return Response({"message": "Authenticated user"})
+Aquí, solo los usuarios autenticados podrán acceder a secure_view.
+
+4. @authentication_classes
+Uso: @authentication_classes([TokenAuthentication, SessionAuthentication])
+
+Permite definir los tipos de autenticación que se pueden utilizar en una vista específica. Esto es útil si tienes diferentes tipos de autenticación en tu aplicación y quieres que una vista en particular solo acepte uno de ellos.
+
+Ejemplo:
+
+python
+Copiar código
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import authentication_classes
+
+@authentication_classes([TokenAuthentication])
+@api_view(['GET'])
+def token_secure_view(request):
+    return Response({"message": "Token-authenticated user"})
+
+5. @throttle_classes
+Uso: @throttle_classes([UserRateThrottle])
+
+Este decorador permite establecer políticas de limitación de solicitudes (throttling) en una vista específica. Esto es útil para controlar el número de solicitudes permitidas a un usuario o grupo en un tiempo determinado.
+
+Ejemplo:
+
+python
+Copiar código
+from rest_framework.throttling import UserRateThrottle
+from rest_framework.decorators import throttle_classes
+
+@throttle_classes([UserRateThrottle])
+@api_view(['GET'])
+def limited_view(request):
+    return Response({"message": "You have limited access"})
+
+
+6. @renderer_classes
+Uso: @renderer_classes([JSONRenderer, HTMLRenderer])
+
+Este decorador permite especificar qué renderizadores debe utilizar la vista. Esto es útil si deseas que una vista devuelva los datos en un formato específico, como JSON, HTML, XML, etc.
+
+Ejemplo:
+
+python
+Copiar código
+from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import renderer_classes
+
+@renderer_classes([JSONRenderer])
+@api_view(['GET'])
+def json_only_view(request):
+    return Response({"message": "JSON format only"})
