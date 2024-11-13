@@ -11,6 +11,12 @@ http://127.0.0.1:8000/admin (ejemplo)
 Username: alex_calleja
 p:papa
 
+GITHUB
+git status
+git add .
+git commit -m "Dummy"
+git push origin master
+
 EXPLICACION ENDPOINTS TOKEN
 http://localhost:8000/api/token/
 Sirve para loguearse y nos devuelve dos tokens el access token y el refresh token

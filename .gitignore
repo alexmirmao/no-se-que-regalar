@@ -29,3 +29,24 @@ Thumbs.db
 dist/
 build/
 *.egg-info/
+
+# Frontend React
+node_modules/              # Dependencias de Node.js
+front-nsqr/node_modules    # Dependencias de Node.js
+npm-debug.log              # Logs de NPM
+yarn-debug.log             # Logs de Yarn
+yarn-error.log             # Logs de Yarn
+package-lock.json          # Si usas Yarn, puedes ignorar package-lock.json y usar yarn.lock en su lugar
+*.log                      # Logs generales
+/.next/                    # Si usas Next.js
+/.cache/                   # Cache de herramientas como Webpack
+
+# Archivos de configuraciones de IDE o editor específicos de frontend
+.vscode/
+.idea/
+*.swp
+*~ 
+
+# Archivos generados por los bundlers o generadores de frontend
+*.css.map                  # Mapas de fuentes de CSS
+*.js.map                   # Mapas de fuentes de JavaScript

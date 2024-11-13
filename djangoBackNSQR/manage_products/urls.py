@@ -12,5 +12,5 @@ router.register(r'category', CategoryViewSet)
 router.register(r'products_categories', ProductCategoryViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),  # Rutas generadas por el DefaultRouter
+    path('', include(router.urls)),  # Rutas generadas por el DefaultRou ter 
 ]

@@ -1,2 +1,2 @@
-5. Github
+5. QUitar credenciales ysql hacer un squash en git
 
