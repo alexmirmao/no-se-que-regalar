@@ -12,11 +12,18 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv, find_dotenv
 
+# Intenta encontrar el archivo .env
+dotenv_path = find_dotenv()
+
+if dotenv_path:
+    print(f".env file found at {dotenv_path}")
+else:
+    print("No .env file found!")
 # Cargar las variables del archivo .env
-load_dotenv()
+load_dotenv(dotenv_path)
 
 # Usar las credenciales
 DB_USER = os.getenv("DB_USER")
